@@ -1,0 +1,93 @@
+DECLARE 
+   a number(2) := 10; 
+BEGIN 
+   <<loopstart>> 
+   -- while loop execution  
+   WHILE a < 20 LOOP
+   dbms_output.put_line ('value of a: ' || a); 
+      a := a + 1; 
+      IF a = 15 THEN 
+         a := a + 1; 
+         GOTO loopstart; 
+      END IF; 
+   END LOOP; 
+END; 
+/
+
+
+
+DECLARE
+
+V_EMPID EMPLOYEE.EMPID%TYPE;
+V_ENAME EMPLOYEE.ENAME%TYPE;
+BEGIN
+while( sql%found) loop
+select empid,ename into v_empid,v_ename from employee;
+DBMS_OUTPUT.PUT_LINE('EMPLOYEE ID     '|| V_EMPID ||'        NAME : '||V_ENAME);
+end loop;
+END;
+
+--EXPLICIT CURSOR
+DECLARE
+CURSOR EMPCUR IS SELECT EMPID,ENAME FROM EMPLOYEE;
+V_EMPID EMPLOYEE.EMPID%TYPE;
+V_ENAME EMPLOYEE.ENAME%TYPE;
+BEGIN
+OPEN EMPCUR;
+
+LOOP
+FETCH EMPCUR INTO V_EMPID,V_ENAME ;
+EXIT WHEN EMPCUR%NOTFOUND;
+DBMS_OUTPUT.PUT_LINE('EMPLOYEE ID     '|| V_EMPID ||'        NAME : '||V_ENAME);
+END LOOP;
+CLOSE EMPCUR;
+END;
+
+
+
+
+
+*) Implicit cursor
+DECLARE  
+   total_rows number(2); 
+BEGIN 
+   UPDATE customers 
+   SET salary = salary + 500; 
+   IF sql%notfound THEN 
+      dbms_output.put_line('no customers selected'); 
+   ELSIF sql%found THEN 
+      total_rows := sql%rowcount;
+      dbms_output.put_line( total_rows || ' customers selected '); 
+   END IF;  
+END; 
+/     
+
+*) Table based record
+DECLARE 
+   emp_rec employee%rowtype; 
+BEGIN 
+   SELECT * into emp_rec 
+   FROM employee 
+   WHERE empid = 5;  
+   dbms_output.put_line('Employee ID: ' || emp_rec.empid); 
+   dbms_output.put_line('Employee Name: ' || emp_rec.ename); 
+   dbms_output.put_line('Employee Address: ' || emp_rec.location); 
+   dbms_output.put_line('Employee Salary: ' || emp_rec.salary); 
+END; 
+/
+
+*) cursor based records
+DECLARE 
+   CURSOR emp_cur is 
+      SELECT empid, ename, location  
+      FROM employee; 
+   emp_rec emp_cur%rowtype; 
+BEGIN 
+   OPEN emp_cur; 
+   LOOP 
+      FETCH emp_cur into emp_rec; 
+      EXIT WHEN emp_cur%notfound; 
+      DBMS_OUTPUT.put_line(emp_rec.empid || ' ' || emp_rec.ename); 
+   END LOOP; 
+END; 
+/

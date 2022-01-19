@@ -1,0 +1,43 @@
+Create or replace Trigger ABC 
+Before INSERT or UPDATE or DELETE 
+On employee
+Begin
+if inserting then
+Dbms_output.put_line('insert');
+else
+Dbms_output.put_line('delete');
+end if;
+End;
+/
+
+
+Create or replace Trigger Mrinal 
+AFTER INSERT or UPDATE or DELETE 
+On employee for each row
+declare
+sal_diff int;
+Begin
+sal_diff := :NEW.salary  - :OLD.salary;
+   dbms_output.put_line('Old salary: ' || :OLD.salary);
+   dbms_output.put_line('New salary: ' || :NEW.salary);
+   dbms_output.put_line('Salary difference: ' || sal_diff);
+Dbms_output.put_line('delete');
+End;
+
+
+
+
+Create or replace Trigger Mrinal 
+AFTER INSERT or UPDATE or DELETE 
+On employee for each row
+when (new.salary<10)
+declare
+sal_diff int;
+Begin
+sal_diff := :NEW.salary  - :OLD.salary;
+dbms_output.put_line('Old salary: ' || :OLD.salary);
+dbms_output.put_line('New salary: ' || :NEW.salary);
+dbms_output.put_line('Salary difference: ' || sal_diff);
+Dbms_output.put_line('delete');
+End;
+

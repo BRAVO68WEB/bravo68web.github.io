@@ -2533,10 +2533,10 @@ body.dark footer.footer {
   src: local('Agustina'), local('Agustina-Font-Regular'), url(../fonts/Agustina.21f233e1.woff) format('woff');
 }
 
-.styled-header {
+/* .styled-header {
   font-family: 'Agustina', sans-serif;
-  font-size: 3.1rem;
+  font-size: 2.5rem;
   color: #ffffff;
   letter-spacing: 3px;
-}
+} */
 /*# sourceMappingURL=style.css.map */
